@@ -702,9 +702,10 @@ class FolioPageFragment : Fragment(),
 
     private fun updatePagesLeftText(scrollY: Int) {
         try {
-            val currentPage = (ceil(scrollY.toDouble() / mWebview!!.webViewHeight) + 1).toInt()
             val totalPages =
                 ceil(mWebview!!.contentHeightVal.toDouble() / mWebview!!.webViewHeight).toInt()
+            val pageHeight = ceil(mWebview!!.contentHeightVal.toDouble() / totalPages)
+            val currentPage = (ceil(scrollY.toDouble() / pageHeight) + 1).toInt()
             val pagesRemaining = totalPages - currentPage
             val pagesRemainingStrFormat = if (pagesRemaining > 1)
                 getString(R.string.pages_left)
@@ -712,9 +713,10 @@ class FolioPageFragment : Fragment(),
                 getString(R.string.page_left)
             val pagesRemainingStr = String.format(
                 Locale.US,
-                pagesRemainingStrFormat, pagesRemaining
+                pagesRemainingStrFormat, pagesRemaining, totalPages
             )
 
+/*
             val minutesRemaining =
                 ceil((pagesRemaining * mTotalMinutes).toDouble() / totalPages).toInt()
             val minutesRemainingStr: String
